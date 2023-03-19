@@ -6,3 +6,4 @@ with open(AppEnvironment.TEXT_PATH + '/1/1.txt') as f:
             print(i)
 
 print("THIS IS WORK")
+print("THIS IS WORK")
