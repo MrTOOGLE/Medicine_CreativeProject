@@ -10,6 +10,7 @@ from utils import FileUtils, triable, ImageInfo
 class PDFHandler:
     def __init__(self, pdf_path: str):
         self.pdf_file = fitz.open(pdf_path)
+        self.pdf_name = FileUtils.get_file_name(pdf_path, with_extension=False)
 
     def extract_images(self) -> None:
         logging.info(f"Extracting images from {self.pdf_file.name}...")
@@ -38,12 +39,22 @@ class PDFHandler:
     @triable
     def __save_image(self, image_info: ImageInfo, page_index: int, image_index: int) -> None:
         image, extension = image_info.image, image_info.extension
-        save_directory = AppEnvironment.IMAGES_PATH + FileUtils.get_file_name(self.pdf_file.name, with_extension=False)
+        save_directory = AppEnvironment.IMAGES_PATH + self.pdf_name
         image_path = f"{save_directory}/image{page_index + 1}_{image_index}.{extension}"
         image.save(open(image_path, "wb"))
 
         if extension not in FileUtils.STANDARD_IMAGE_EXTENSIONS:
             FileUtils.convert_image(image_path)
+
+    def extract_text(self) -> None:
+        logging.info(f"Extracting text from {self.pdf_file.name}...")
+        text = ""
+        for page in self.pdf_file:
+            text += page.get_text() + "\n"
+
+        save_directory = AppEnvironment.TEXT_PATH + self.pdf_name
+        with open(f"{save_directory}/{self.pdf_name}.txt", "w", encoding="utf-8") as doc:
+            doc.write(text)
 
     def __del__(self):
         self.pdf_file.close()

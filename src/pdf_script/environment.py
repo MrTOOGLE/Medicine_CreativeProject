@@ -10,6 +10,7 @@ class AppEnvironment:
     RESOURCE_PATH = "../../resources/"
     PDF_FILES_PATH = RESOURCE_PATH + "PDF_files/"
     IMAGES_PATH = RESOURCE_PATH + "images/"
+    TEXT_PATH = RESOURCE_PATH + "text/"
     LOGS_PATH = RESOURCE_PATH + "logs/"
     SOURCE_FOLDERS = [IMAGES_PATH, LOGS_PATH]
 
@@ -31,6 +32,7 @@ class AppEnvironment:
         _, _, file_names = next(os.walk(AppEnvironment.PDF_FILES_PATH))
         for file_name in file_names:
             AppEnvironment.SOURCE_FOLDERS.append(AppEnvironment.IMAGES_PATH + FileUtils.cut_extension(file_name))
+            AppEnvironment.SOURCE_FOLDERS.append(AppEnvironment.TEXT_PATH + FileUtils.cut_extension(file_name))
 
         for folder_path in AppEnvironment.SOURCE_FOLDERS:
             if not os.path.exists(folder_path):

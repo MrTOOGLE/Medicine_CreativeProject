@@ -9,8 +9,7 @@ def main():
     #     PDFHandler(pdf_path).extract_images()
 
     for pdf_path in AppEnvironment.get_pdf_paths():
-        PDFHandler(pdf_path).extract_images()
-
+        PDFHandler(pdf_path).extract_text()
 
 
 if __name__ == '__main__':
