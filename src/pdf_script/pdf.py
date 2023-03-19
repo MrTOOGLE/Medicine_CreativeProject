@@ -50,7 +50,7 @@ class PDFHandler:
         logging.info(f"Extracting text from {self.pdf_file.name}...")
         text = ""
         for page in self.pdf_file:
-            text += page.get_text() + "\n"
+            text += page.get_text() + "\n\n"
 
         save_directory = AppEnvironment.TEXT_PATH + self.pdf_name
         with open(f"{save_directory}/{self.pdf_name}.txt", "w", encoding="utf-8") as doc:
