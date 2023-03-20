@@ -1,9 +1,11 @@
 import os
 import logging
+import re
 
 from datetime import datetime
 from PIL import ImageFile
 from utils import FileUtils
+from typing import Generator
 
 
 class AppEnvironment:
@@ -12,7 +14,7 @@ class AppEnvironment:
     IMAGES_PATH = RESOURCE_PATH + "images/"
     TEXT_PATH = RESOURCE_PATH + "text/"
     LOGS_PATH = RESOURCE_PATH + "logs/"
-    SOURCE_FOLDERS = [IMAGES_PATH, LOGS_PATH]
+    SOURCE_FOLDERS = [IMAGES_PATH, TEXT_PATH, LOGS_PATH]
 
     @staticmethod
     def configure():
@@ -29,6 +31,9 @@ class AppEnvironment:
 
     @staticmethod
     def __create_source_folders():
+        if not os.path.exists(AppEnvironment.PDF_FILES_PATH):
+            os.makedirs(AppEnvironment.PDF_FILES_PATH)
+
         _, _, file_names = next(os.walk(AppEnvironment.PDF_FILES_PATH))
         for file_name in file_names:
             AppEnvironment.SOURCE_FOLDERS.append(AppEnvironment.IMAGES_PATH + FileUtils.cut_extension(file_name))
@@ -42,3 +47,24 @@ class AppEnvironment:
     def get_pdf_paths():
         _, _, files = next(os.walk(AppEnvironment.PDF_FILES_PATH))
         return [AppEnvironment.PDF_FILES_PATH + path for path in files]
+
+    @staticmethod
+    def page_images(folder_name: str) -> Generator:
+        _, _, images = next(os.walk(AppEnvironment.IMAGES_PATH + f"/{folder_name}"))
+        images.sort(key=lambda image: len(re.findall(r"(\d.*)\.", image)[0]))
+        images = list(filter(lambda image: re.findall(r"(\d*)_", image)[0] != "1", images))
+        pattern = r"(\d*)_"
+        _page_images = [images[0]]
+
+        for i in range(1, len(images)):
+            if re.findall(pattern, images[i]) == re.findall(pattern, images[i - 1]):
+                _page_images.append(images[i])
+            else:
+                yield (image for image in _page_images)
+                _page_images = [images[i]]
+        yield (image for image in _page_images)
+
+
+if __name__ == '__main__':
+    page_image_getter = AppEnvironment.page_images("2")
+    next(page_image_getter)

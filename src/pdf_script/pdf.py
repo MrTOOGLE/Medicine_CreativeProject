@@ -1,10 +1,12 @@
 import io
 import logging
 import fitz
+import json
 
+from string import ascii_uppercase
 from PIL import Image, ImageFile
 from environment import AppEnvironment
-from utils import FileUtils, triable, ImageInfo
+from utils import FileUtils, triable, ImageInfo, GeneratorHandler
 
 
 class PDFHandler:
@@ -46,15 +48,45 @@ class PDFHandler:
         if extension not in FileUtils.STANDARD_IMAGE_EXTENSIONS:
             FileUtils.convert_image(image_path)
 
-    def extract_text(self) -> None:
+    def extract_all_text(self):
         logging.info(f"Extracting text from {self.pdf_file.name}...")
-        text = ""
-        for page in self.pdf_file:
-            text += page.get_text() + "\n\n"
+        self.__extract_text()
 
+    #@triable
+    def __extract_text(self) -> None:
         save_directory = AppEnvironment.TEXT_PATH + self.pdf_name
-        with open(f"{save_directory}/{self.pdf_name}.txt", "w", encoding="utf-8") as doc:
-            doc.write(text)
+        text = ""
+        json_dict = {}
+        page_image_getter = AppEnvironment.page_images(self.pdf_name)
+        pages = [page for page in self.pdf_file][1:]
+        for page in pages:
+            blocks = page.get_text("dict", flags=11)["blocks"]
+            image_footers = []
+            for block in blocks:
+                image_footer = ""
+                for line in block["lines"]:
+                    for span in line["spans"]:
+                        font_size, text = span["size"], span["text"]
+                        if font_size in FileUtils.IMAGE_FOOTER_FONTS[self.pdf_name]:
+                            print(text)
+                            image_footer += text
+
+                if image_footer and FileUtils.is_footer(image_footer):
+                    count_images = FileUtils.is_collage(image_footer)
+                    image_footers.append((image_footer, count_images if count_images != 0 else 1))
+            print(image_footers)
+            if not image_footers:
+                continue
+            page_images = GeneratorHandler(next(page_image_getter))
+            print(page_images.values)
+            for footer, count_images in image_footers:
+                if count_images > 1:
+                    json_dict[", ".join([page_images.next() + "_" + ascii_uppercase[i] for i in range(count_images)])] = footer
+                else:
+                    a = page_images.next()
+                    json_dict[a] = footer
+        with open(AppEnvironment.TEXT_PATH + self.pdf_name + "/images_info.json", "w") as file:
+            json.dump(json_dict, file)
 
     def __del__(self):
         self.pdf_file.close()

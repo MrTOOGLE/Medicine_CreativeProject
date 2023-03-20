@@ -1,14 +1,21 @@
 import functools
 import logging
 import os
+import re
 
 from collections import namedtuple
-from typing import Optional, Any, Callable
+from typing import Optional, Any, Callable, Generator
 from PIL import Image, ImageOps, ImageFile
 
 
 class FileUtils:
     STANDARD_IMAGE_EXTENSIONS = ["jpeg", "jpg", "png"]
+    IMAGE_FOOTER_FONTS = {
+        "1": (8.5, 0),
+        "2": (8.0, 10.5),
+        "3": (9.0, 0),
+        "4": (8.5, 0)
+    }
 
     @staticmethod
     def convert_image(image_path: str, to_extension=".png") -> None:
@@ -37,6 +44,17 @@ class FileUtils:
         *path, name = file_path.split("/")
         return '/'.join(path) + '/' + name[:name.index(".")]
 
+    @staticmethod
+    def is_collage(text: str) -> int:
+        side_values = len(re.findall(r"\(.*[a-zA-Z]\)", text))
+        return len(re.findall(r"[( ][a-zA-Z]\s?[)–]", text)) - side_values
+
+    @staticmethod
+    def is_footer(text: str) -> bool:
+        if text.lower().strip().startswith("fig"):
+            return True
+        return False
+
 
 def triable(func: Callable):
     @functools.wraps(func)
@@ -52,3 +70,19 @@ def triable(func: Callable):
 
 
 ImageInfo = namedtuple("ImageInfo", ["image", "extension"])
+
+
+class GeneratorHandler:
+    def __init__(self, generator: Generator):
+        self.values = list(generator)
+        self.generator = (i for i in self.values)
+
+    def next(self):
+        try:
+            return next(self.generator)
+        except StopIteration:
+            return self.values[-1]
+
+
+if __name__ == '__main__':
+    print(FileUtils.is_collage("Fig. 89 Graphical form of an analysis result – two parameters A – dot plots and B – single parameter histo-grams 2"))
