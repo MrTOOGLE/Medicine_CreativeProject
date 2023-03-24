@@ -80,8 +80,8 @@ class FileUtils:
         return False
 
     @staticmethod
-    def correct_footer(footer: str):
-        for replace_pattern, replacement in FileUtils.FOOTER_CORRECTIONS["1"]:
+    def correct_footer(footer: str, source):
+        for replace_pattern, replacement in FileUtils.FOOTER_CORRECTIONS[source]:
             if type(replace_pattern) == re.Pattern:
                 footer = re.sub(replace_pattern, replacement, footer)
             else:
