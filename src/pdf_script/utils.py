@@ -4,6 +4,7 @@ import os
 import re
 
 from collections import namedtuple
+from string import ascii_lowercase
 from typing import Optional, Any, Callable, Generator
 from PIL import Image, ImageOps, ImageFile
 
@@ -15,6 +16,16 @@ class FileUtils:
         "2": (8.0, 10.5),
         "3": (9.0, 0),
         "4": (8.5, 0)
+    }
+
+    FOOTER_PATTERNS = {
+        "1": re.compile(r"(?<=~Fig\. )(\d+) (.*?)(?<=~[A-Z ])"),
+        "2": re.compile(r"")
+    }
+
+    FOOTER_CORRECTIONS = {
+        "1": [(re.compile(r"~\w$"), ""), ("-~", ""), ("~", ""), (re.compile(r"\s{2,}"), " ")],
+        "2": []
     }
 
     @staticmethod
@@ -46,14 +57,37 @@ class FileUtils:
 
     @staticmethod
     def is_collage(text: str) -> int:
-        side_values = len(re.findall(r"\(.*[a-zA-Z]\)", text))
-        return len(re.findall(r"[( ][a-zA-Z]\s?[)–]", text)) - side_values
+        selected_values = sorted(list(set(map(str.lower, re.findall(r"\(?([a-zA-Z])\)", text)))))
+        special_values = re.findall(r"\(([a-zA-Z]) and ([a-zA-Z])\)?", text)
+        result = set()
+        for char in ascii_lowercase:
+            if not selected_values:
+                break
+            if selected_values.pop(0).lower() == char:
+                result.add(char)
+            else:
+                break
+
+        for special_value in special_values:
+            result.update(*special_value)
+
+        return len(result)
 
     @staticmethod
     def is_footer(text: str) -> bool:
         if text.lower().strip().startswith("fig"):
             return True
         return False
+
+    @staticmethod
+    def correct_footer(footer: str):
+        for replace_pattern, replacement in FileUtils.FOOTER_CORRECTIONS["1"]:
+            if type(replace_pattern) == re.Pattern:
+                footer = re.sub(replace_pattern, replacement, footer)
+            else:
+                footer = footer.replace(replace_pattern, replacement)
+
+        return footer
 
 
 def triable(func: Callable):
