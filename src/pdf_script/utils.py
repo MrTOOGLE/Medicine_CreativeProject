@@ -140,7 +140,7 @@ def triable(func: Callable) -> Callable:
 
 def timer(func: Callable) -> Callable:
     @functools.wraps(func)
-    def __wrapper(*args, **kwargs):
+    def __wrapper(*args, **kwargs) -> Optional[Any]:
         start = time.time()
         result = func(*args, **kwargs)
         logging.info(f"Function <{func.__name__}> has executed in {round(time.time() - start, 4)}s")
@@ -166,6 +166,6 @@ class GeneratorHelper:
     def back(self) -> None:
         self.generator = (i for i in [self.last_value] + list(self.generator))
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     print(__name__)

@@ -85,16 +85,16 @@ class PDFHandler:
         self.__page_image_getter.next()
         images_page_index, page_images = self.__page_image_getter.last_value
 
-        is_continue = False
+        to_next_page = False
         while page_index != images_page_index:
             if images_page_index > page_index or self.__page_image_getter.is_empty:
                 self.__page_image_getter.back()
-                is_continue = True
+                to_next_page = True
                 break
             else:
                 self.__page_image_getter.next()
                 images_page_index, page_images = self.__page_image_getter.last_value
-        if is_continue:
+        if to_next_page:
             return
 
         page_images_info = self.__get_page_images_info(page_images, (caption for caption in page_captions))

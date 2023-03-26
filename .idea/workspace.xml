@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.0475">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pdf_script/BETA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/BETA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pdf_script/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/__main__.py" afterDir="false" />
+    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.05">
       <change beforePath="$PROJECT_DIR$/src/pdf_script/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/environment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pdf_script/pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/pdf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pdf_script/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -195,7 +191,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679672105900</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="v1.05">
+      <created>1679812160743</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1679812160743</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -214,6 +217,7 @@
     <MESSAGE value="v1.044" />
     <MESSAGE value="v1.047" />
     <MESSAGE value="v1.0475" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.0475" />
+    <MESSAGE value="v1.05" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.05" />
   </component>
 </project>

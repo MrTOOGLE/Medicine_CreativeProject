@@ -20,7 +20,7 @@ class AppEnvironment:
     __IMAGE_PAGE_PATTERN = re.compile(r"(\d+)_")
 
     @staticmethod
-    def configure():
+    def configure() -> None:
         AppEnvironment.__create_source_folders()
         logging.basicConfig(
             level=logging.DEBUG,
@@ -33,7 +33,7 @@ class AppEnvironment:
         ImageFile.LOAD_TRUNCATED_IMAGES = True
 
     @staticmethod
-    def __create_source_folders():
+    def __create_source_folders() -> None:
         if not os.path.exists(AppEnvironment.PDF_FILES_PATH):
             os.makedirs(AppEnvironment.PDF_FILES_PATH)
 
@@ -47,7 +47,7 @@ class AppEnvironment:
                 os.mkdir(folder_path)
 
     @staticmethod
-    def get_pdf_paths():
+    def get_pdf_paths() -> list[str]:
         _, _, files = next(os.walk(AppEnvironment.PDF_FILES_PATH))
         return [AppEnvironment.PDF_FILES_PATH + path for path in files]
 
