@@ -5,7 +5,7 @@ import re
 from datetime import datetime
 from PIL import ImageFile
 from utils import FileUtils
-from typing import Generator
+from typing import Generator, Tuple
 
 
 class AppEnvironment:
@@ -15,6 +15,9 @@ class AppEnvironment:
     TEXT_PATH = RESOURCE_PATH + "text/"
     LOGS_PATH = RESOURCE_PATH + "logs/"
     SOURCE_FOLDERS = [IMAGES_PATH, TEXT_PATH, LOGS_PATH]
+
+    __IMAGE_INDEX_PATTERN = re.compile(r"(\d+)_(\d+)")
+    __IMAGE_PAGE_PATTERN = re.compile(r"(\d+)_")
 
     @staticmethod
     def configure():
@@ -49,22 +52,23 @@ class AppEnvironment:
         return [AppEnvironment.PDF_FILES_PATH + path for path in files]
 
     @staticmethod
-    def page_images(folder_name: str) -> Generator:
+    def page_images(folder_name: str) -> Generator[Tuple[int, Generator], None, None]:
         _, _, images = next(os.walk(AppEnvironment.IMAGES_PATH + f"/{folder_name}"))
-        images.sort(key=lambda image: len(re.findall(r"(\d.*)\.", image)[0]))
-        images = list(filter(lambda image: re.findall(r"(\d*)_", image)[0] != "1", images))
-        pattern = r"(\d*)_"
+        images.sort(key=lambda image: tuple(map(int, *re.findall(AppEnvironment.__IMAGE_INDEX_PATTERN, image))))
+        images = list(filter(lambda image: re.findall(AppEnvironment.__IMAGE_PAGE_PATTERN, image)[0] != "1", images))
         _page_images = [images[0]]
 
+        last_page_index = re.findall(AppEnvironment.__IMAGE_PAGE_PATTERN, images[0])[0]
         for i in range(1, len(images)):
-            if re.findall(pattern, images[i]) == re.findall(pattern, images[i - 1]):
+            current_page_index = re.findall(AppEnvironment.__IMAGE_PAGE_PATTERN, images[i])[0]
+            if current_page_index == last_page_index:
                 _page_images.append(images[i])
             else:
-                yield (image for image in _page_images)
+                yield int(last_page_index), (image for image in _page_images)
+                last_page_index = current_page_index
                 _page_images = [images[i]]
-        yield (image for image in _page_images)
+        yield int(last_page_index), (image for image in _page_images)
 
 
 if __name__ == '__main__':
-    page_image_getter = AppEnvironment.page_images("2")
-    next(page_image_getter)
+    pass

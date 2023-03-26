@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.044">
-      <change beforePath="$PROJECT_DIR$/.idea/Medicine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Medicine.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.0475">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pdf_script/BETA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/BETA.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/__main__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/pdf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pdf_script/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +24,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -32,12 +41,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\_Python\Programs\Medicine\src\pdf_script" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.__main__">
     <configuration name="BETA (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Medicine" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -122,7 +134,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Medicine" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -134,7 +146,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pdf_script/test2.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pdf_script/utils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -145,10 +157,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
-        <item itemvalue="Python.test2" />
-        <item itemvalue="Python.BETA (1)" />
         <item itemvalue="Python.__main__" />
+        <item itemvalue="Python.utils" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.BETA (1)" />
         <item itemvalue="Python.environment" />
       </list>
     </recent_temporary>
@@ -169,7 +181,21 @@
       <option name="project" value="LOCAL" />
       <updated>1679285095412</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="v1.047">
+      <created>1679671978959</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1679671978959</updated>
+    </task>
+    <task id="LOCAL-00003" summary="v1.0475">
+      <created>1679672105900</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1679672105900</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -186,6 +212,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v1.044" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.044" />
+    <MESSAGE value="v1.047" />
+    <MESSAGE value="v1.0475" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.0475" />
   </component>
 </project>
