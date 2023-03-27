@@ -19,12 +19,12 @@ class AppEnvironment:
     __IMAGE_INDEX_PATTERN = re.compile(r"(\d+)_(\d+)")
     __IMAGE_PAGE_PATTERN = re.compile(r"(\d+)_")
 
-    @staticmethod
-    def configure() -> None:
-        AppEnvironment.__create_source_folders()
+    @classmethod
+    def configure(cls) -> None:
+        cls.__create_source_folders()
         logging.basicConfig(
             level=logging.DEBUG,
-            filename=f"{AppEnvironment.LOGS_PATH}{datetime.date(datetime.now())}.log",
+            filename=f"{cls.LOGS_PATH}{datetime.date(datetime.now())}.log",
             filemode="a",
             format="%(asctime)s %(levelname)s %(message)s"
         )
@@ -32,35 +32,35 @@ class AppEnvironment:
 
         ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-    @staticmethod
-    def __create_source_folders() -> None:
-        if not os.path.exists(AppEnvironment.PDF_FILES_PATH):
-            os.makedirs(AppEnvironment.PDF_FILES_PATH)
+    @classmethod
+    def __create_source_folders(cls) -> None:
+        if not os.path.exists(cls.PDF_FILES_PATH):
+            os.makedirs(cls.PDF_FILES_PATH)
 
         _, _, file_names = next(os.walk(AppEnvironment.PDF_FILES_PATH))
         for file_name in file_names:
-            AppEnvironment.SOURCE_FOLDERS.append(AppEnvironment.IMAGES_PATH + FileUtils.cut_extension(file_name))
-            AppEnvironment.SOURCE_FOLDERS.append(AppEnvironment.TEXT_PATH + FileUtils.cut_extension(file_name))
+            cls.SOURCE_FOLDERS.append(cls.IMAGES_PATH + FileUtils.cut_extension(file_name))
+            cls.SOURCE_FOLDERS.append(cls.TEXT_PATH + FileUtils.cut_extension(file_name))
 
-        for folder_path in AppEnvironment.SOURCE_FOLDERS:
+        for folder_path in cls.SOURCE_FOLDERS:
             if not os.path.exists(folder_path):
                 os.mkdir(folder_path)
 
-    @staticmethod
-    def get_pdf_paths() -> list[str]:
-        _, _, files = next(os.walk(AppEnvironment.PDF_FILES_PATH))
-        return [AppEnvironment.PDF_FILES_PATH + path for path in files]
+    @classmethod
+    def get_pdf_paths(cls) -> list[str]:
+        _, _, files = next(os.walk(cls.PDF_FILES_PATH))
+        return [cls.PDF_FILES_PATH + path for path in files]
 
-    @staticmethod
-    def get_page_images(folder_name: str) -> Generator[Tuple[int, Generator], None, None]:
-        _, _, images = next(os.walk(AppEnvironment.IMAGES_PATH + f"/{folder_name}"))
-        images.sort(key=lambda image: tuple(map(int, *re.findall(AppEnvironment.__IMAGE_INDEX_PATTERN, image))))
-        images = list(filter(lambda image: re.findall(AppEnvironment.__IMAGE_PAGE_PATTERN, image)[0] != "1", images))
+    @classmethod
+    def get_page_images(cls, folder_name: str) -> Generator[Tuple[int, Generator], None, None]:
+        _, _, images = next(os.walk(cls.IMAGES_PATH + f"/{folder_name}"))
+        images.sort(key=lambda image: tuple(map(int, *re.findall(cls.__IMAGE_INDEX_PATTERN, image))))
+        images = list(filter(lambda image: re.findall(cls.__IMAGE_PAGE_PATTERN, image)[0] != "1", images))
         _page_images = [images[0]]
 
-        last_page_index = re.findall(AppEnvironment.__IMAGE_PAGE_PATTERN, images[0])[0]
+        last_page_index = re.findall(cls.__IMAGE_PAGE_PATTERN, images[0])[0]
         for i in range(1, len(images)):
-            current_page_index = re.findall(AppEnvironment.__IMAGE_PAGE_PATTERN, images[i])[0]
+            current_page_index = re.findall(cls.__IMAGE_PAGE_PATTERN, images[i])[0]
             if current_page_index == last_page_index:
                 _page_images.append(images[i])
             else:
