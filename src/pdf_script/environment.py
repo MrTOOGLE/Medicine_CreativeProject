@@ -52,7 +52,7 @@ class AppEnvironment:
         return [AppEnvironment.PDF_FILES_PATH + path for path in files]
 
     @staticmethod
-    def page_images(folder_name: str) -> Generator[Tuple[int, Generator], None, None]:
+    def get_page_images(folder_name: str) -> Generator[Tuple[int, Generator], None, None]:
         _, _, images = next(os.walk(AppEnvironment.IMAGES_PATH + f"/{folder_name}"))
         images.sort(key=lambda image: tuple(map(int, *re.findall(AppEnvironment.__IMAGE_INDEX_PATTERN, image))))
         images = list(filter(lambda image: re.findall(AppEnvironment.__IMAGE_PAGE_PATTERN, image)[0] != "1", images))

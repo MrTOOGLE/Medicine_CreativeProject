@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.05">
+    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.051">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/BETA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/BETA.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/__main__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pdf_script/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/pdf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pdf_script/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,6 +42,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Рабочий стол/Python/labs" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
@@ -154,9 +159,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.__main__" />
+        <item itemvalue="Python.BETA (1)" />
         <item itemvalue="Python.utils" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.BETA (1)" />
         <item itemvalue="Python.environment" />
       </list>
     </recent_temporary>
@@ -198,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679812160743</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="v1.051">
+      <created>1679812535676</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1679812535676</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,6 +230,7 @@
     <MESSAGE value="v1.047" />
     <MESSAGE value="v1.0475" />
     <MESSAGE value="v1.05" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.05" />
+    <MESSAGE value="v1.051" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.051" />
   </component>
 </project>
