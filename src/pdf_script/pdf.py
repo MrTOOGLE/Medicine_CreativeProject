@@ -6,7 +6,7 @@ import json
 from typing import Generator
 from PIL import Image, ImageFile
 from environment import AppEnvironment
-from utils import FileUtils, triable, ImageInfo, GeneratorHelper, timer
+from utils import FileUtils, triable, ImageInfo, GeneratorHandler, timer
 
 
 class PDFHandler:
@@ -15,7 +15,7 @@ class PDFHandler:
         self.pdf_name = FileUtils.get_file_name(pdf_path, with_extension=False)
 
         self.__images_info = {}
-        self.__page_image_getter = GeneratorHelper(AppEnvironment.page_images(self.pdf_name))
+        self.__page_image_getter = GeneratorHandler(AppEnvironment.get_page_images(self.pdf_name))
 
     def extract_info(self) -> None:
         self.extract_images()
@@ -60,9 +60,7 @@ class PDFHandler:
     def extract_text(self):
         logging.info(f"Extracting text from {self.pdf_file.name}...")
         pages = [page for page in self.pdf_file][1:]
-        page_index = 1
-        for page in pages:
-            page_index += 1
+        for page_index, page in enumerate(pages, start=2):
             text = page.get_text()
             self.__extract_page_text(page_index, text)
 
@@ -103,8 +101,8 @@ class PDFHandler:
     @staticmethod
     def __get_page_images_info(page_images: Generator, page_captions: Generator) -> dict:
         page_images_info = {}
-        page_images = GeneratorHelper(page_images)
-        page_captions = GeneratorHelper(page_captions)
+        page_images = GeneratorHandler(page_images)
+        page_captions = GeneratorHandler(page_captions)
 
         while True:
             page_captions.next()

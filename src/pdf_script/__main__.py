@@ -6,7 +6,7 @@ def main():
     AppEnvironment.configure()
     for pdf_path in AppEnvironment.get_pdf_paths():
         handler = PDFHandler(pdf_path)
-        #handler.extract_images()
+        # handler.extract_images()
         handler.extract_text()
 
 
