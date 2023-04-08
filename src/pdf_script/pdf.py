@@ -1,108 +1,167 @@
+import abc
 import io
-import logging
-import fitz
 import json
+import logging
+import os
+import fitz
 
-from typing import Generator
-from PIL import Image, ImageFile
+from typing import Iterator, Any, Optional, NamedTuple
+from PIL import Image
+from PIL.ImageFile import ImageFile
+from fitz.fitz import Document, Page
+
 from environment import AppEnvironment
-from utils import FileUtils, triable, ImageInfo, GeneratorHandler, timer
+from utils import FileUtils, triable, IteratorHandler, timer
 
 
 class PDFHandler:
-    def __init__(self, pdf_path: str):
-        self.pdf_file = fitz.open(pdf_path)
-        self.pdf_name = FileUtils.get_file_name(pdf_path, with_extension=False)
+    def __init__(self, path: str):
+        self._path: str = path
+        self._name: str = FileUtils.get_file_name(path, with_extension=False)
+        self._file: Document = fitz.open(path)
 
-        self.__images_info = {}
-        self.__page_image_getter = GeneratorHandler(AppEnvironment.get_page_images(self.pdf_name))
+    @property
+    def path(self) -> str:
+        return self._path
 
-    def extract_info(self) -> None:
-        self.extract_images()
-        self.extract_text()
+    @property
+    def name(self) -> str:
+        return self._name
 
-    @timer
-    def extract_images(self) -> None:
-        logging.info(f"Extracting images from {self.pdf_file.name}...")
-        for page_index in range(len(self.pdf_file)):
-            page = self.pdf_file[page_index]
-            image_list = page.get_images()
+    @property
+    def file(self) -> Document:
+        return self._file
 
-            for image_index, base_image in enumerate(image_list, start=1):
-                image_info = self.__extract_image(base_image)
-                if image_info.image:
-                    self.__save_image(image_info, page_index, image_index)
+    def get_pages(self, start=0) -> tuple[Page]:
+        return tuple(self._file.pages())[start:]
 
-        logging.info(f"Extracting images from {self.pdf_file.name} is finished.")
+    def __iter__(self) -> Iterator[Page]:
+        return iter(self.get_pages())
+
+    def __del__(self) -> None:
+        self._file.close()
+
+
+class PDFDataExtractor(abc.ABC):
+    def __init__(self, handler: PDFHandler, start_page=0):
+        self.handler = handler
+        self._current_page_index = start_page
+
+    @abc.abstractmethod
+    def extract(self) -> Optional[Any]:
+        pass
+
+
+class ImageData(NamedTuple):
+    page_index: int
+    image_index: int
+    image: Optional[Any]
+    extension: str
+
+
+class PDFImageExtractor(PDFDataExtractor):
+    def __init__(self, handler: PDFHandler):
+        super().__init__(handler, start_page=1)
+
+        self._images: list[ImageData] = []
+
+    @property
+    def images(self):
+        return self._images
+
+    def extract(self) -> list[ImageData]:
+        logging.info(f"Extracting images from {self.handler.name}.pdf...")
+        for page in self.handler:
+            page_images = page.get_images()
+            self._extract_images_data_from_page(page_images)
+
+            self._current_page_index += 1
+
+        return self.images
+
+    def _extract_images_data_from_page(self, page_images) -> None:
+        for image_index, page_image in enumerate(page_images, start=1):
+            image = self._extract_image_data(xref=page_image[0])
+            if image is None:
+                continue
+
+            image_data = ImageData(self._current_page_index, image_index, image, image.extension)
+            self.images.append(image_data)
 
     @triable
-    def __extract_image(self, image: ImageFile) -> ImageInfo:
-        base_image = self.pdf_file.extract_image(image[0])
+    def _extract_image_data(self, xref: int) -> Optional[ImageFile]:
+        base_image = self._get_image_on_xref(xref)
         image_extension = base_image["ext"]
         image_bytes = base_image["image"]
         image = Image.open(io.BytesIO(image_bytes))
+        if not image:
+            return None
+
         if image.mode != "RGB":
             image = FileUtils.to_rgb_image(image)
+        setattr(image, "extension", image_extension)
+        return image
 
-        return ImageInfo(image=image, extension=image_extension)
+    def _get_image_on_xref(self, xref: int):
+        return self.handler.file.extract_image(xref)
 
-    @triable
-    def __save_image(self, image_info: ImageInfo, page_index: int, image_index: int) -> None:
-        image, extension = image_info.image, image_info.extension
-        save_directory = AppEnvironment.IMAGES_PATH + self.pdf_name
-        image_path = f"{save_directory}/image{page_index + 1}_{image_index}.{extension}"
-        image.save(open(image_path, "wb"))
 
-        if extension not in FileUtils.STANDARD_IMAGE_EXTENSIONS:
-            FileUtils.convert_image(image_path)
+class PDFImageCaptionsExtractor(PDFDataExtractor):
+    def __init__(self, handler: PDFHandler):
+        super().__init__(handler, start_page=2)
+
+        self._image_captions = {}
+        self._page_image_getter = IteratorHandler(AppEnvironment.get_page_images(self.handler.name))
+
+    @property
+    def image_captions(self) -> dict:
+        return self._image_captions
 
     @timer
-    def extract_text(self):
-        logging.info(f"Extracting text from {self.pdf_file.name}...")
-        pages = [page for page in self.pdf_file][1:]
-        for page_index, page in enumerate(pages, start=2):
+    def extract(self) -> dict:
+        logging.info(f"Extracting caption text from {self.handler.name}...")
+        pages = self.handler.get_pages(start=1)
+        for page in pages:
             text = page.get_text()
-            self.__extract_page_text(page_index, text)
+            self._extract_captions_text_from_page(text)
 
-        with open(AppEnvironment.TEXT_PATH + self.pdf_name + "/images_info.json", "w") as file:
-            json.dump(self.__images_info, file)
-        logging.info(f"Extracting text from {self.pdf_file.name} is finished.")
+            self._current_page_index += 1
+
+        logging.info(f"Extracting caption text from {self.handler.name} is finished.")
+        return self.image_captions
 
     @triable
-    def __extract_page_text(self, page_index: int, text: str) -> None:
-        if "Fig." in text or "Figure" in text:
-            page_captions = FileUtils.extract_captions(text, self.pdf_name)
-        else:
-            return
+    def _extract_captions_text_from_page(self, text: str) -> None:
+        page_captions = FileUtils.extract_captions(text, self.handler.name)
         if not page_captions:
             return
 
-        self.__process_page_data(page_index, page_captions)
-
-    def __process_page_data(self, page_index: int, page_captions: list[str]) -> None:
-        self.__page_image_getter.next()
-        images_page_index, page_images = self.__page_image_getter.last_value
-
-        to_next_page = False
-        while page_index != images_page_index:
-            if images_page_index > page_index or self.__page_image_getter.is_empty:
-                self.__page_image_getter.back()
-                to_next_page = True
-                break
-            else:
-                self.__page_image_getter.next()
-                images_page_index, page_images = self.__page_image_getter.last_value
-        if to_next_page:
+        if not self._try_sync_page_indexes():
             return
 
-        page_images_info = self.__get_page_images_info(page_images, (caption for caption in page_captions))
-        self.__images_info.update(page_images_info)
+        _, page_images = self._page_image_getter.last_value
+        page_images_info = self._get_page_image_captions(page_images, iter(page_captions))
+        self._image_captions.update(page_images_info)
+
+    def _try_sync_page_indexes(self):
+        self._page_image_getter.next()
+        images_page_index, page_images = self._page_image_getter.last_value
+
+        while self._current_page_index != images_page_index:
+            if images_page_index > self._current_page_index or self._page_image_getter.is_empty:
+                self._page_image_getter.back()
+                return False
+            else:
+                self._page_image_getter.next()
+                images_page_index, page_images = self._page_image_getter.last_value
+
+        return True
 
     @staticmethod
-    def __get_page_images_info(page_images: Generator, page_captions: Generator) -> dict:
-        page_images_info = {}
-        page_images = GeneratorHandler(page_images)
-        page_captions = GeneratorHandler(page_captions)
+    def _get_page_image_captions(page_images: Iterator, page_captions: Iterator) -> dict:
+        page_image_captions = {}
+        page_images = IteratorHandler(page_images)
+        page_captions = IteratorHandler(page_captions)
 
         while True:
             page_captions.next()
@@ -111,15 +170,50 @@ class PDFHandler:
             for _ in range(count_images):
                 page_images.next()
                 if page_captions.is_empty and page_images.is_empty:
-                    return page_images_info
+                    return page_image_captions
 
                 image = page_images.last_value
-                page_images_info[image] = {
+                page_image_captions[image] = {
                     "index": image_index,
-                    "scale": None,
                     "required": None,
                     "caption": caption
                 }
 
-    def __del__(self):
-        self.pdf_file.close()
+
+class PDFDataSaver:
+    _STANDARD_IMAGE_EXTENSIONS = ["jpeg", "jpg", "png"]
+
+    @classmethod
+    def save(cls, save_data: Any, save_directory_name: str):
+        if isinstance(save_data, list) and isinstance(save_data[0], ImageData):
+            cls.save_images(save_data, save_directory_name)
+        elif isinstance(save_data, dict):
+            cls.save_image_captions(save_data, save_directory_name)
+        else:
+            raise NotImplementedError("There is no implemented method for saving this data")
+
+    @classmethod
+    def save_images(cls, images: list[ImageData], save_directory_name: str):
+        for image in images:
+            cls.save_image(image, save_directory_name)
+
+    @classmethod
+    def save_image(cls, image_data: ImageData, save_directory_name: str):
+        image, extension = image_data.image, image_data.extension
+        page_index, image_index = image_data.page_index, image_data.image_index
+        save_directory = AppEnvironment.IMAGES_PATH + save_directory_name
+        image_path = f"{save_directory}/image{page_index}_{image_index}."
+
+        with open(image_path + (extension if extension in cls._STANDARD_IMAGE_EXTENSIONS else "png"), "wb") as file:
+            image.save(file)
+
+    @staticmethod
+    def _convert_image(image_path: str, to_extension: str) -> None:
+        image = Image.open(image_path)
+        image.save(FileUtils.cut_extension(image_path) + to_extension)
+        os.remove(image_path)
+
+    @staticmethod
+    def save_image_captions(image_captions: dict, save_directory_name: str):
+        with open(AppEnvironment.TEXT_PATH + save_directory_name + "/image_captions.json", "w") as file:
+            json.dump(image_captions, file)

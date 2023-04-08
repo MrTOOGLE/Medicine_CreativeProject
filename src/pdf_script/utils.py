@@ -6,13 +6,11 @@ import time
 
 from collections import namedtuple
 from string import ascii_lowercase
-from typing import Optional, Any, Callable, Generator
+from typing import Optional, Any, Callable, Iterator
 from PIL import Image, ImageOps, ImageFile
 
 
 class FileUtils:
-    STANDARD_IMAGE_EXTENSIONS = ["jpeg", "jpg", "png"]
-
     __CAPTION_PATTERNS = {
         "1": re.compile(r"(?<=~Fig\. )(\d+) (.*?)(?<=~[A-Z ])"),
         "2": re.compile(r"(?<=• )Fig.? (\d+\.\d+) (?<!A–B)(.*?)~[.• ]"),
@@ -51,12 +49,6 @@ class FileUtils:
     }
     __IMAGE_POINTER_PATTERN = re.compile(r"\(?([a-zA-Z])\)")
     __IMAGE_DOUBLE_POINTER_PATTERN = re.compile(r"\(([a-zA-Z]) and ([a-zA-Z])\)?")
-
-    @classmethod
-    def convert_image(cls, image_path: str, to_extension=".png") -> None:
-        image = Image.open(image_path)
-        image.save(cls.cut_extension(image_path) + to_extension)
-        os.remove(image_path)
 
     @classmethod
     def get_file_name(cls, file_path: str, with_extension: bool = True) -> str:
@@ -105,12 +97,12 @@ class FileUtils:
             caption = cls.correct_caption(caption, name_file_source)
             captions[i] = (image_index, caption)
 
-        cls.sort_captions(captions, name_file_source)
+        cls._sort_captions(captions, name_file_source)
         return captions
 
     @classmethod
-    def sort_captions(cls, captions: list[str], name_file_source: str) -> None:
-        def __sort_function(caption):
+    def _sort_captions(cls, captions: list[str], name_file_source: str) -> None:
+        def _get_sort_key(caption):
             image_index = re.findall(cls.__IMAGE_INDEX_PATTERN[name_file_source], caption[0])[0]
             first_index, second_index = "0", "0"
             if isinstance(image_index, tuple):
@@ -122,7 +114,13 @@ class FileUtils:
 
             return (first_index, second_index) if second_index else (first_index, 0)
 
-        captions.sort(key=__sort_function)
+        captions.sort(key=_get_sort_key)
+
+    @classmethod
+    def convert_image(cls, image_path: str, to_extension: str) -> None:
+        image = Image.open(image_path)
+        image.save(cls.cut_extension(image_path) + to_extension)
+        os.remove(image_path)
 
     @staticmethod
     def to_rgb_image(image: ImageFile) -> ImageFile:
@@ -166,23 +164,26 @@ def timer(func: Callable) -> Callable:
     return __wrapper
 
 
-class GeneratorHandler:
-    def __init__(self, generator: Generator):
-        self.generator = generator
+class IteratorHandler:
+    def __init__(self, iterator: Iterator):
+        self.iterator = iterator
         self.is_empty = False
         self.last_value = None
 
     def next(self) -> Optional[Any]:
         try:
-            self.last_value = next(self.generator)
+            self.last_value = next(self.iterator)
             return self.last_value
         except StopIteration:
             self.is_empty = True
             return None
 
+    def get_next_or_last_value(self):
+        return self.next() or self.last_value
+
     def back(self) -> None:
-        self.generator = (i for i in [self.last_value] + list(self.generator))
+        self.iterator = (i for i in [self.last_value] + list(self.iterator))
 
 
 if __name__ == '__main__':
-    print(__name__)
+    pass
