@@ -116,12 +116,6 @@ class FileUtils:
 
         captions.sort(key=_get_sort_key)
 
-    @classmethod
-    def convert_image(cls, image_path: str, to_extension: str) -> None:
-        image = Image.open(image_path)
-        image.save(cls.cut_extension(image_path) + to_extension)
-        os.remove(image_path)
-
     @staticmethod
     def to_rgb_image(image: ImageFile) -> ImageFile:
         if image.mode == "CMYK":

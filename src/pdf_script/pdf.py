@@ -69,6 +69,7 @@ class PDFImageExtractor(PDFDataExtractor):
     def images(self):
         return self._images
 
+    @timer
     def extract(self) -> list[ImageData]:
         logging.info(f"Extracting images from {self.handler.name}.pdf...")
         for page in self.handler:
