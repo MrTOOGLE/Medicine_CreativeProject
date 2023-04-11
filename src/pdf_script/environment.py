@@ -4,8 +4,10 @@ import re
 
 from datetime import datetime
 from PIL import ImageFile
+
+
 from utils import FileUtils
-from typing import Generator, Tuple
+from typing import Generator, Tuple, Iterator
 
 
 class AppEnvironment:
@@ -52,7 +54,7 @@ class AppEnvironment:
         return [cls.PDF_FILES_PATH + path for path in files]
 
     @classmethod
-    def get_page_images(cls, folder_name: str) -> Generator[Tuple[int, Generator], None, None]:
+    def get_page_images(cls, folder_name: str) -> Iterator[Tuple[int, Generator]]:
         _, _, images = next(os.walk(cls.IMAGES_PATH + f"/{folder_name}"))
         images.sort(key=lambda image: tuple(map(int, *re.findall(cls.__IMAGE_INDEX_PATTERN, image))))
         images = list(filter(lambda image: re.findall(cls.__IMAGE_PAGE_PATTERN, image)[0] != "1", images))
