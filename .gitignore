@@ -157,3 +157,4 @@ cython_debug/
 .idea/misc.xml
 .idea/workspace.xml
 .idea/workspace.xml
+/src/neural_training/
