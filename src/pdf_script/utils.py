@@ -1,6 +1,5 @@
 import functools
 import logging
-import os
 import re
 import time
 
@@ -102,7 +101,7 @@ class FileUtils:
 
     @classmethod
     def _sort_captions(cls, captions: list[str], name_file_source: str) -> None:
-        def _get_sort_key(caption):
+        def _sort_key(caption):
             image_index = re.findall(cls.__IMAGE_INDEX_PATTERN[name_file_source], caption[0])[0]
             first_index, second_index = "0", "0"
             if isinstance(image_index, tuple):
@@ -114,7 +113,7 @@ class FileUtils:
 
             return (first_index, second_index) if second_index else (first_index, 0)
 
-        captions.sort(key=_get_sort_key)
+        captions.sort(key=_sort_key)
 
     @staticmethod
     def to_rgb_image(image: ImageFile) -> ImageFile:
@@ -171,9 +170,6 @@ class IteratorHandler:
         except StopIteration:
             self.is_empty = True
             return None
-
-    def get_next_or_last_value(self):
-        return self.next() or self.last_value
 
     def back(self) -> None:
         self.iterator = (i for i in [self.last_value] + list(self.iterator))
