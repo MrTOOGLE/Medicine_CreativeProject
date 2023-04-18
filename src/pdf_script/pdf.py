@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import abc
 import io
 import json
@@ -18,7 +20,7 @@ class PDFHandler:
     def __init__(self, path: str):
         self._path: str = path
         self._name: str = FileUtils.get_file_name(path, with_extension=False)
-        self._file: Document = fitz.open(path)
+        self._file: Optional[Document] = None
 
     @property
     def path(self) -> str:
@@ -29,7 +31,7 @@ class PDFHandler:
         return self._name
 
     @property
-    def file(self) -> Document:
+    def file(self) -> Optional[Document]:
         return self._file
 
     def get_pages(self, start=0) -> tuple[Page]:
@@ -38,7 +40,11 @@ class PDFHandler:
     def __iter__(self) -> Iterator[Page]:
         return iter(self.get_pages())
 
-    def __del__(self) -> None:
+    def __enter__(self) -> PDFHandler:
+        self._file = fitz.open(self.path)
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self._file.close()
 
 
@@ -144,7 +150,7 @@ class PDFImageCaptionsExtractor(PDFDataExtractor):
         page_images_info = self._get_page_image_captions(page_images, iter(page_captions))
         self._image_captions.update(page_images_info)
 
-    def _try_sync_page_indexes(self):
+    def _try_sync_page_indexes(self) -> bool:
         self._page_image_getter.next()
         images_page_index, page_images = self._page_image_getter.last_value
 
@@ -185,7 +191,7 @@ class PDFDataSaver:
     _STANDARD_IMAGE_EXTENSIONS = ["jpeg", "jpg", "png"]
 
     @classmethod
-    def save(cls, save_data: Any, save_directory_name: str):
+    def save(cls, save_data: Any, save_directory_name: str) -> None:
         if isinstance(save_data, list) and isinstance(save_data[0], ImageData):
             cls.save_images(save_data, save_directory_name)
         elif isinstance(save_data, dict):
@@ -194,12 +200,12 @@ class PDFDataSaver:
             raise NotImplementedError("There is no implemented method for saving this data")
 
     @classmethod
-    def save_images(cls, images: list[ImageData], save_directory_name: str):
+    def save_images(cls, images: list[ImageData], save_directory_name: str) -> None:
         for image in images:
             cls.save_image(image, save_directory_name)
 
     @classmethod
-    def save_image(cls, image_data: ImageData, save_directory_name: str):
+    def save_image(cls, image_data: ImageData, save_directory_name: str) -> None:
         image, extension = image_data.image, image_data.extension
         page_index, image_index = image_data.page_index, image_data.image_index
         save_directory = AppEnvironment.IMAGES_PATH + save_directory_name
@@ -215,6 +221,6 @@ class PDFDataSaver:
         os.remove(image_path)
 
     @staticmethod
-    def save_image_captions(image_captions: dict, save_directory_name: str):
+    def save_image_captions(image_captions: dict, save_directory_name: str) -> None:
         with open(AppEnvironment.TEXT_PATH + save_directory_name + "/image_captions.json", "w") as file:
             json.dump(image_captions, file)
