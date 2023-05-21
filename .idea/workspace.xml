@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.05">
-      <change afterPath="$PROJECT_DIR$/src/neural_training/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/neural_training/neural_training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Medicine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Medicine.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.062.1">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/__main__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,16 +38,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Рабочий стол/Python/labs" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;last_opened_file_path&quot;: &quot;D:/_Python/Programs/Medicine&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\_Python\Programs\Medicine\src\pdf_script" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.BETA (1)">
     <configuration name="BETA (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Medicine" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -157,9 +157,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.BETA (1)" />
         <item itemvalue="Python.__main__" />
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.utils" />
         <item itemvalue="Python.environment" />
       </list>
@@ -223,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679921003374</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="v1.062.1">
+      <created>1681814253107</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1681814253107</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,6 +252,7 @@
     <MESSAGE value="v1.051" />
     <MESSAGE value="v1.055" />
     <MESSAGE value="v1.056" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.056" />
+    <MESSAGE value="v1.062.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.062.1" />
   </component>
 </project>
