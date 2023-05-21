@@ -41,8 +41,9 @@ class AppEnvironment:
 
         _, _, file_names = next(os.walk(AppEnvironment.PDF_FILES_PATH))
         for file_name in file_names:
-            cls.SOURCE_FOLDERS.append(cls.IMAGES_PATH + FileUtils.cut_extension(file_name))
-            cls.SOURCE_FOLDERS.append(cls.TEXT_PATH + FileUtils.cut_extension(file_name))
+            folder_name = FileUtils.cut_extension(file_name)
+            cls.SOURCE_FOLDERS.append(cls.IMAGES_PATH + folder_name)
+            cls.SOURCE_FOLDERS.append(cls.TEXT_PATH + folder_name)
 
         for folder_path in cls.SOURCE_FOLDERS:
             if not os.path.exists(folder_path):

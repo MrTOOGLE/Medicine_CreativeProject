@@ -6,7 +6,6 @@ def main():
     AppEnvironment.configure()
     for pdf_path in AppEnvironment.get_pdf_paths():
         with PDFHandler(pdf_path) as handler:
-            # Гу гу га га
             extractor = PDFImageCaptionsExtractor(handler)
             PDFDataSaver.save(save_data=extractor.extract(), save_directory_name=handler.name)
 
