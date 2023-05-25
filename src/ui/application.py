@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from src.ui.widgets.widgets import TableWidget
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -37,6 +39,25 @@ class Ui_MainWindow(object):
 "    border-radius: 10px;\n"
 "}")
         self.textEdit.setObjectName("textEdit")
+
+        self.searchResTable = TableWidget(self.centralwidget)
+        self.searchResTable.setGeometry(QtCore.QRect(20, 70, 561, 251))
+        font = QtGui.QFont()
+        font.setFamily("Cascadia Code")
+        font.setPointSize(10)
+        self.searchResTable.setFont(font)
+        self.searchResTable.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
+        self.searchResTable.setStyleSheet("""
+            background-color: rgb(85, 85, 105);
+            color: white;
+            border-radius: 10px;
+        """)
+        self.searchResTable.setObjectName("searchResTable")
+        self.searchResTable.setColumnCount(2)
+        self.searchResTable.setColumnWidth(0, 280)
+        self.searchResTable.setColumnWidth(1, 280)
+
+
         self.btnSearch = QtWidgets.QPushButton(self.centralwidget)
         self.btnSearch.setGeometry(QtCore.QRect(480, 20, 100, 38))
         font = QtGui.QFont()
