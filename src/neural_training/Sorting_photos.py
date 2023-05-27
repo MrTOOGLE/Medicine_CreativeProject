@@ -12,7 +12,9 @@ for subdir, dirs, files in os.walk(path):
     for file in files:
         try:
             image_path = os.path.join(subdir, file)
-            image_name = image_path.split('\\')[-1]
+            # print(image_path)
+            book_count, image_name = image_path.split('\\')[1:3]
+            image_name = f'{book_count}/{image_name}'
 
             image = load_img(image_path, target_size=(180, 180))
             image = img_to_array(image)
