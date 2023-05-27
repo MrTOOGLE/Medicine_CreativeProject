@@ -1,7 +1,7 @@
 import sys
 
 from application import Ui_MainWindow
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import *
 
 
 class Application(QMainWindow):
@@ -9,6 +9,10 @@ class Application(QMainWindow):
         super(Application, self).__init__()
         self.app = Ui_MainWindow()
         self.app.setupUi(self)
+
+    def button_pushed(self):
+        self.app.searchResTable().
+
 
 
 if __name__ == "__main__":
