@@ -35,12 +35,17 @@ class AppEnvironment:
 
         ImageFile.LOAD_TRUNCATED_IMAGES = True
 
+    @staticmethod
+    def get_pdf_file_names():
+        _, _, file_names = next(os.walk(AppEnvironment.PDF_FILES_PATH))
+        return file_names
+
     @classmethod
     def __create_source_folders(cls) -> None:
         if not os.path.exists(cls.PDF_FILES_PATH):
             os.makedirs(cls.PDF_FILES_PATH)
 
-        _, _, file_names = next(os.walk(AppEnvironment.PDF_FILES_PATH))
+        file_names = cls.get_pdf_file_names()
         for file_name in file_names:
             folder_name = FileUtils.cut_extension(file_name)
             cls.SOURCE_FOLDERS.append(cls.IMAGES_PATH + folder_name)
@@ -52,8 +57,8 @@ class AppEnvironment:
 
     @classmethod
     def get_pdf_paths(cls) -> list[str]:
-        _, _, files = next(os.walk(cls.PDF_FILES_PATH))
-        return [cls.PDF_FILES_PATH + path for path in files]
+        file_names = cls.get_pdf_file_names()
+        return [cls.PDF_FILES_PATH + path for path in file_names]
 
     @classmethod
     def get_page_images(cls, folder_name: str) -> Iterator[Tuple[int, Generator]]:

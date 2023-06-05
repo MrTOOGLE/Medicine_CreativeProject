@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.066">
+    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.065.1">
+      <change beforePath="$PROJECT_DIR$/.idea/Medicine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Medicine.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neural_training/Sorting_photos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/neural_training/Sorting_photos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pdf_script/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/__main__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/BETA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/BETA.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pdf_script/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/environment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pdf_script/pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/pdf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/__main__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/app.ui" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/app.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/widgets/widgets.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/widgets/widgets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,21 +44,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/_Python/Programs/Medicine&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
-  }
-}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\_Python\Programs\Medicine\src\pdf_script" />
-      <recent name="D:\_Python\Programs\Medicine\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.__main__ (1)">
+  <component name="RunManager" selected="Python.BETA (1)">
     <configuration name="BETA (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Medicine" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -162,11 +157,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.BETA (1)" />
         <item itemvalue="Python.__main__ (1)" />
         <item itemvalue="Python.Sorting_photos" />
         <item itemvalue="Python.__main__" />
         <item itemvalue="Python.widgets" />
-        <item itemvalue="Python.BETA (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -256,14 +251,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685186452000</updated>
     </task>
-    <task id="LOCAL-00012" summary="v1.066">
-      <created>1685192854572</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1685192854572</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -276,6 +264,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v1.044" />
@@ -289,7 +278,6 @@
     <MESSAGE value="v1.063" />
     <MESSAGE value="v1.063.1" />
     <MESSAGE value="v1.065.1" />
-    <MESSAGE value="v1.066" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.066" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.065.1" />
   </component>
 </project>
