@@ -1,5 +1,5 @@
-from pdf import PDFHandler, PDFImageExtractor, PDFImageCaptionsExtractor, PDFDataSaver
-from environment import AppEnvironment
+from pdf import PDFHandler, PDFImageCaptionsExtractor, PDFDataSaver
+from src.pdf_script.environment import AppEnvironment
 
 
 def main():

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.065.1">
+    <list default="true" id="451fc4be-632c-47ac-a522-cf0818fc7955" name="Changes" comment="v1.066">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/neural_training/Sorting_photos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/neural_training/Sorting_photos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/__main__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/__main__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf_script/pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf_script/pdf.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +42,8 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/_Python/Programs/Medicine&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
   }
@@ -48,6 +51,7 @@
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\_Python\Programs\Medicine\src\pdf_script" />
+      <recent name="D:\_Python\Programs\Medicine\src" />
     </key>
   </component>
   <component name="RunManager" selected="Python.__main__ (1)">
@@ -252,7 +256,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685186452000</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="v1.066">
+      <created>1685192854572</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1685192854572</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -278,6 +289,7 @@
     <MESSAGE value="v1.063" />
     <MESSAGE value="v1.063.1" />
     <MESSAGE value="v1.065.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.065.1" />
+    <MESSAGE value="v1.066" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.066" />
   </component>
 </project>

@@ -16,6 +16,7 @@ class AppEnvironment:
     IMAGES_PATH = RESOURCE_PATH + "images/"
     TEXT_PATH = RESOURCE_PATH + "text/"
     LOGS_PATH = RESOURCE_PATH + "logs/"
+    SRC_PATH = "../"
     SOURCE_FOLDERS = [IMAGES_PATH, TEXT_PATH, LOGS_PATH]
 
     __IMAGE_INDEX_PATTERN = re.compile(r"(\d+)_(\d+)")

@@ -12,7 +12,7 @@ from PIL import Image
 from PIL.ImageFile import ImageFile
 from fitz.fitz import Document, Page
 
-from environment import AppEnvironment
+from src.pdf_script.environment import AppEnvironment
 from utils import FileUtils, triable, IteratorHandler, timer
 
 
