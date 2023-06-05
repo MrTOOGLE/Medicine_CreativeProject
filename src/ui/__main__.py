@@ -1,5 +1,6 @@
 import sys
 import json
+from pprint import pprint
 from typing import Dict
 
 from application import Ui_MainWindow
@@ -21,7 +22,8 @@ class Application(QMainWindow):
 
     def search(self):
         searching_text = fill(self.app.textEdit.toPlainText(), 65)
-        found_data = self.select_data_by_key_words(searching_text.split(" "))[:10]
+        found_data = self.select_data_by_key_words(searching_text.split(" "))[:5]
+        pprint(found_data)
         for index, note in enumerate(found_data):
             name, image_info = note
             item = QTableWidgetItem()
@@ -51,9 +53,6 @@ class Application(QMainWindow):
                         }
 
         return sorted(coincidences.items(), key=lambda x: x[1]["coincidences"], reverse=True)
-
-
-
 
 
 if __name__ == "__main__":

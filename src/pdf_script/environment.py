@@ -6,7 +6,7 @@ from datetime import datetime
 from PIL import ImageFile
 
 
-from utils import FileUtils
+from src.pdf_script.utils import FileUtils
 from typing import Generator, Tuple, Iterator
 
 
